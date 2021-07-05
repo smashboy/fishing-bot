@@ -25,9 +25,6 @@ const twitchAuth = (ctx: Ctx): BlitzPassportStrategy => ({
       callbackURL: twitchBotAuthConfig.callbackURL,
     },
     async (accessToken, refreshToken, profile, done) => {
-      const session = ctx.session
-
-      session.$revoke()
       done()
     }
   ),

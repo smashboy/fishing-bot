@@ -54,13 +54,15 @@ export default class Bot {
             channels: botConfig.channels,
             prefix: botConfig.prefix,
             commands: [
-              smallFish((roomKey, newNumber) => this.updateWidget(roomKey, newNumber)),
-              mediumFish((roomKey, newNumber) => this.updateWidget(roomKey, newNumber)),
-              largeFish((roomKey, newNumber) => this.updateWidget(roomKey, newNumber)),
+              smallFish((roomKey, newAmount) => this.updateWidget(roomKey, newAmount)),
+              mediumFish((roomKey, newAmount) => this.updateWidget(roomKey, newAmount)),
+              largeFish((roomKey, newAmount) => this.updateWidget(roomKey, newAmount)),
             ],
           })
 
           log.success("Bot is running...")
+
+          this.initSockets()
 
           resolve(true)
         } catch (error) {
@@ -70,7 +72,23 @@ export default class Bot {
     })
   }
 
-  private updateWidget(roomKey: RoomKeyType, newNumber: number) {
-    this.io.sockets.to(roomKey).emit(botConfig.socketEvents.UPDATE_WIDGET, newNumber)
+  private initSockets() {
+    this.io.on("connection", (socket) => {
+      log.info(`SOCKET CONNECTED: ${socket.id} : ${this.io.sockets.sockets.size}`)
+
+      socket.on(botConfig.socketEvents.JOIN_SMALL_ROOM, () =>
+        socket.join(botConfig.roomKeys.smallFish)
+      )
+      socket.on(botConfig.socketEvents.JOIN_MEDIUM_ROOM, () =>
+        socket.join(botConfig.roomKeys.mediumFish)
+      )
+      socket.on(botConfig.socketEvents.JOIN_LARGE_ROOM, () =>
+        socket.join(botConfig.roomKeys.largeFish)
+      )
+    })
+  }
+
+  private updateWidget(roomKey: RoomKeyType, newAmount: number) {
+    this.io.sockets.to(roomKey).emit(botConfig.socketEvents.UPDATE_WIDGET, newAmount)
   }
 }

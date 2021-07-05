@@ -1,5 +1,5 @@
 import db from "db"
-import { RefreshableAuthProvider, StaticAuthProvider, revokeToken } from "twitch-auth"
+import { RefreshableAuthProvider, StaticAuthProvider } from "twitch-auth"
 import { assert } from "utils"
 import { log } from "@blitzjs/display"
 import { twitchBotAuthConfig } from "./configs"
@@ -45,6 +45,3 @@ export const twitchAuthProvider = ({
     }
   )
 }
-
-export const revokeTwitchAuthToken = (token: string) =>
-  revokeToken(process.env.TWITCH_CLIENT_ID as string, token)

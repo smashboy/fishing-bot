@@ -1,7 +1,7 @@
 import { BotCommandContext, createBotCommand } from "easy-twitch-bot"
 import { botConfig, RoomKeyType } from "./botConfig"
 
-type UpdateWidget = (roomKey: RoomKeyType, newNumber: number) => void
+type UpdateWidget = (roomKey: RoomKeyType, newAmount: number) => void
 
 const commandHandler = (
   roomKey: RoomKeyType,
