@@ -1,0 +1,55 @@
+{
+  "name": "fishing-bot-app",
+  "version": "1.0.0",
+  "scripts": {
+    "predev": "docker-compose up -d",
+    "dev": "blitz dev",
+    "build": "blitz build",
+    "start": "blitz start",
+    "studio": "blitz prisma studio",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "prepare": "husky install"
+  },
+  "prisma": {
+    "schema": "db/schema.prisma"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "dependencies": {
+    "@prisma/client": "2.26.0",
+    "autoprefixer": "10.2.6",
+    "blitz": "0.38.2",
+    "easy-twitch-bot": "4.6.0",
+    "passport-twitch-latest": "1.0.0",
+    "react": "alpha",
+    "react-dom": "alpha",
+    "socket.io": "4.1.2",
+    "socket.io-client": "4.1.2",
+    "twitch-auth": "4.6.0"
+  },
+  "devDependencies": {
+    "@types/passport-twitch-latest": "1.0.0",
+    "@types/preview-email": "2.0.0",
+    "@types/react": "17.0.13",
+    "eslint": "7.30.0",
+    "husky": "6.0.0",
+    "lint-staged": "10.5.4",
+    "prettier": "2.3.2",
+    "prettier-plugin-prisma": "0.13.2",
+    "pretty-quick": "3.1.1",
+    "preview-email": "3.0.4",
+    "prisma": "2.26.0",
+    "tailwindcss": "2.2.4",
+    "typescript": "~4.3"
+  },
+  "private": true
+}
