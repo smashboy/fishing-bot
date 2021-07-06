@@ -22,7 +22,7 @@ const FishCounterWidget: React.FC<{ roomEventKey: BotSocketEventType }> = ({ roo
 
   const handleNewFishAmount = (newAmount: number) => setFishCounter(newAmount)
 
-  return <h1 className="text-9xl">{fishCounter}</h1>
+  return <h1 className="text-9xl text-center">{fishCounter}</h1>
 }
 
 export default FishCounterWidget
