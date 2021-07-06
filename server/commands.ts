@@ -18,7 +18,7 @@ const commandHandler = (
 
   const fishAmount = params[0] ? parseInt(params[0]) : null
 
-  if (fishAmount === null) return say(`@${user} укажите количество рыб.`)
+  if (fishAmount === null || isNaN(fishAmount)) return say(`@${user} укажите количество рыбок.`)
 
   updateWidget(roomKey, fishAmount)
 }
