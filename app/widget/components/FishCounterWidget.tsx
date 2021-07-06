@@ -8,7 +8,6 @@ const FishCounterWidget: React.FC<{ roomEventKey: BotSocketEventType }> = ({ roo
   const [fishCounter, setFishCounter] = useState(0)
 
   useEffect(() => {
-    console.log(isConnected)
     if (isConnected) {
       socket.emit(roomEventKey)
 
