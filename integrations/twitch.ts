@@ -28,9 +28,10 @@ export const twitchAuthProvider = ({
 
         await db.botAuth.upsert({
           where: {
-            id: 0,
+            id: 1,
           },
           create: {
+            id: 1,
             token: accessToken,
             refreshToken,
             expiresAt: expiryDate,

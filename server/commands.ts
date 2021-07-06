@@ -1,5 +1,6 @@
 import { BotCommandContext, createBotCommand } from "easy-twitch-bot"
-import { botConfig, RoomKeyType } from "./botConfig"
+import { log } from "@blitzjs/display"
+import { botSocketsConfig, RoomKeyType } from "./botConfigs"
 
 type UpdateWidget = (roomKey: RoomKeyType, newAmount: number) => void
 
@@ -9,9 +10,11 @@ const commandHandler = (
   params: string[],
   { msg, user, say }: BotCommandContext
 ) => {
+  log.info(`COMMAND HANDLER TRIGGER: ${roomKey}/${user}`)
+
   const userInfo = msg.userInfo
 
-  if (!userInfo.isFounder || !userInfo.isBroadcaster || !userInfo.isMod) return
+  if (!userInfo.isFounder && !userInfo.isBroadcaster && !userInfo.isMod) return
 
   const fishAmount = params[0] ? parseInt(params[0]) : null
 
@@ -22,15 +25,15 @@ const commandHandler = (
 
 export const smallFish = (updateWidget: UpdateWidget) =>
   createBotCommand("smallFish", (...args) =>
-    commandHandler(botConfig.roomKeys.smallFish, updateWidget, ...args)
+    commandHandler(botSocketsConfig.roomKeys.smallFish, updateWidget, ...args)
   )
 
 export const mediumFish = (updateWidget: UpdateWidget) =>
   createBotCommand("mediumFish", (...args) =>
-    commandHandler(botConfig.roomKeys.mediumFish, updateWidget, ...args)
+    commandHandler(botSocketsConfig.roomKeys.mediumFish, updateWidget, ...args)
   )
 
 export const largeFish = (updateWidget: UpdateWidget) =>
   createBotCommand("largeFish", (...args) =>
-    commandHandler(botConfig.roomKeys.largeFish, updateWidget, ...args)
+    commandHandler(botSocketsConfig.roomKeys.largeFish, updateWidget, ...args)
   )

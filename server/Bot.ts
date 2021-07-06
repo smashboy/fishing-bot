@@ -4,14 +4,14 @@ import { Server } from "socket.io"
 import { log } from "@blitzjs/display"
 import { twitchAuthProvider } from "integrations/twitch"
 import { Bot as TwitchBot } from "easy-twitch-bot"
-import { botConfig, RoomKeyType } from "./botConfig"
+import { botConfig, botSocketsConfig, RoomKeyType } from "./botConfigs"
 import { smallFish, mediumFish, largeFish } from "./commands"
 
 export default class Bot {
   private io: Server
   private bot: TwitchBot
   private botConnectionInterval: NodeJS.Timer | null = null
-  private readonly botConnectionIntervalTime = 1000 * 60
+  private readonly botConnectionIntervalTime = 1000 * 10
 
   constructor(server: IHttpServer) {
     this.io = new Server(server)
@@ -27,7 +27,7 @@ export default class Bot {
 
           const botAuth = await db.botAuth.findUnique({
             where: {
-              id: 0,
+              id: 1,
             },
             select: {
               token: true,
@@ -76,19 +76,22 @@ export default class Bot {
     this.io.on("connection", (socket) => {
       log.info(`SOCKET CONNECTED: ${socket.id} : ${this.io.sockets.sockets.size}`)
 
-      socket.on(botConfig.socketEvents.JOIN_SMALL_ROOM, () =>
-        socket.join(botConfig.roomKeys.smallFish)
+      socket.on(botSocketsConfig.socketEvents.JOIN_SMALL_ROOM, () =>
+        socket.join(botSocketsConfig.roomKeys.smallFish)
       )
-      socket.on(botConfig.socketEvents.JOIN_MEDIUM_ROOM, () =>
-        socket.join(botConfig.roomKeys.mediumFish)
+      socket.on(botSocketsConfig.socketEvents.JOIN_MEDIUM_ROOM, () =>
+        socket.join(botSocketsConfig.roomKeys.mediumFish)
       )
-      socket.on(botConfig.socketEvents.JOIN_LARGE_ROOM, () =>
-        socket.join(botConfig.roomKeys.largeFish)
+      socket.on(botSocketsConfig.socketEvents.JOIN_LARGE_ROOM, () =>
+        socket.join(botSocketsConfig.roomKeys.largeFish)
       )
+
+      socket.on("disconnect", (reason) => log.info(`SOCKET DISCONNECTED: ${socket.id} : ${reason}`))
     })
   }
 
   private updateWidget(roomKey: RoomKeyType, newAmount: number) {
-    this.io.sockets.to(roomKey).emit(botConfig.socketEvents.UPDATE_WIDGET, newAmount)
+    log.info(`UPDATE WIDGET: ${roomKey}/${newAmount}`)
+    this.io.sockets.to(roomKey).emit(botSocketsConfig.socketEvents.UPDATE_WIDGET, newAmount)
   }
 }

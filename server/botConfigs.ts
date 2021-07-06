@@ -1,6 +1,9 @@
 export const botConfig = {
   channels: ["smashboy"],
   prefix: "!",
+}
+
+export const botSocketsConfig = {
   roomKeys: {
     smallFish: "small-fish",
     mediumFish: "medium-fish",
@@ -15,11 +18,11 @@ export const botConfig = {
 }
 
 export type RoomKeyType =
-  | typeof botConfig.roomKeys.smallFish
-  | typeof botConfig.roomKeys.mediumFish
-  | typeof botConfig.roomKeys.largeFish
+  | typeof botSocketsConfig.roomKeys.smallFish
+  | typeof botSocketsConfig.roomKeys.mediumFish
+  | typeof botSocketsConfig.roomKeys.largeFish
 
 export type BotSocketEventType =
-  | typeof botConfig.socketEvents.JOIN_SMALL_ROOM
-  | typeof botConfig.socketEvents.JOIN_MEDIUM_ROOM
-  | typeof botConfig.socketEvents.JOIN_LARGE_ROOM
+  | typeof botSocketsConfig.socketEvents.JOIN_SMALL_ROOM
+  | typeof botSocketsConfig.socketEvents.JOIN_MEDIUM_ROOM
+  | typeof botSocketsConfig.socketEvents.JOIN_LARGE_ROOM
