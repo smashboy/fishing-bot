@@ -1,5 +1,5 @@
 export const botConfig = {
-  channels: ["smashboy"],
+  channels: ["mreugenee"],
   prefix: "!",
 }
 
