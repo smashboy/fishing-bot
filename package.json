@@ -1,6 +1,6 @@
 {
   "name": "fishing-bot-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "predev": "docker-compose up -d",
     "dev": "blitz dev",
