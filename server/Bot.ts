@@ -36,7 +36,7 @@ export default class Bot {
             },
           })
 
-          if (!botAuth) return
+          if (!botAuth) return log.warning("User is not authenticated")
 
           log.success("Bot authentication exists...")
 

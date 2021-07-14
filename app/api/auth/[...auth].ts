@@ -25,8 +25,6 @@ const twitchAuth = (ctx: Ctx): BlitzPassportStrategy => ({
       callbackURL: twitchBotAuthConfig.callbackURL,
     },
     async (accessToken, refreshToken, profile, done) => {
-      const session = ctx.session
-
       if (profile.id !== process.env.WHITE_LIST_TWITCH_UID) return done(new AuthenticationError())
 
       const provider = twitchAuthProvider({
@@ -42,8 +40,6 @@ const twitchAuth = (ctx: Ctx): BlitzPassportStrategy => ({
         },
         redirectUrl: "/",
       }
-
-      if (session.userId) session.$revoke()
 
       done(null, result)
     }
