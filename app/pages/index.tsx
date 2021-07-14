@@ -18,9 +18,7 @@ const AuthButton = () => {
 
   return (
     <div className="flex justify-center">
-      {session.userId ? //   className="px-4 py-2 bg-purple-800 text-white rounded-md" //   onClick={() => logoutMutation()} // <button
-      // >
-      //   ВЫЙТИ
+      {session.userId ? //   ВЫЙТИ // > //   className="px-4 py-2 bg-purple-800 text-white rounded-md" //   onClick={() => logoutMutation()} // <button
       // </button>
       null : (
         <Link href="/api/auth/twitch" passHref>
@@ -36,6 +34,7 @@ const Home: BlitzPage = () => {
     `${window.location.origin}/small-fish`,
     `${window.location.origin}/medium-fish`,
     `${window.location.origin}/large-fish`,
+    `${window.location.origin}/icon`,
   ]
 
   return (

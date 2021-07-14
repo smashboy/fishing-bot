@@ -4,8 +4,8 @@ import { Server } from "socket.io"
 import { log } from "@blitzjs/display"
 import { twitchAuthProvider } from "integrations/twitch"
 import { Bot as TwitchBot } from "easy-twitch-bot"
-import { botConfig, botSocketsConfig, RoomKeyType } from "./botConfigs"
-import { smallFish, mediumFish, largeFish } from "./commands"
+import { botConfig, botSocketsConfig, IconType, RoomKeyType } from "./botConfigs"
+import { smallFish, mediumFish, largeFish, icon } from "./commands"
 
 export default class Bot {
   private io: Server
@@ -54,9 +54,10 @@ export default class Bot {
             channels: botConfig.channels,
             prefix: botConfig.prefix,
             commands: [
-              smallFish((roomKey, newAmount) => this.updateWidget(roomKey, newAmount)),
-              mediumFish((roomKey, newAmount) => this.updateWidget(roomKey, newAmount)),
-              largeFish((roomKey, newAmount) => this.updateWidget(roomKey, newAmount)),
+              smallFish((roomKey, newAmount) => this.updateFishWidget(roomKey, newAmount)),
+              mediumFish((roomKey, newAmount) => this.updateFishWidget(roomKey, newAmount)),
+              largeFish((roomKey, newAmount) => this.updateFishWidget(roomKey, newAmount)),
+              icon((roomKey, newIcon) => this.updateIconWidget(roomKey, newIcon)),
             ],
           })
 
@@ -86,12 +87,21 @@ export default class Bot {
         socket.join(botSocketsConfig.roomKeys.largeFish)
       )
 
+      socket.on(botSocketsConfig.socketEvents.JOIN_ICON_ROOM, () =>
+        socket.join(botSocketsConfig.roomKeys.icon)
+      )
+
       socket.on("disconnect", (reason) => log.info(`SOCKET DISCONNECTED: ${socket.id} : ${reason}`))
     })
   }
 
-  private updateWidget(roomKey: RoomKeyType, newAmount: number) {
-    log.info(`UPDATE WIDGET: ${roomKey}/${newAmount}`)
+  private updateFishWidget(roomKey: RoomKeyType, newAmount: number) {
+    log.info(`UPDATE FISH WIDGET: ${roomKey}/${newAmount}`)
     this.io.sockets.to(roomKey).emit(botSocketsConfig.socketEvents.UPDATE_WIDGET, newAmount)
+  }
+
+  private updateIconWidget(roomKey: RoomKeyType, newIcon: IconType) {
+    log.info(`UPDATE ICON WIDGET: ${roomKey}/${newIcon}`)
+    this.io.sockets.to(roomKey).emit(botSocketsConfig.socketEvents.UPDATE_WIDGET, newIcon)
   }
 }
